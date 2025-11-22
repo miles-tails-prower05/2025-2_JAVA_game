@@ -13,8 +13,8 @@ public class TopViewObject extends ObjectByKey
 	protected Image[] image;
 	protected final int PATH = 0, WALL = 1, CHARACTER = 2;
 
-	public TopViewObject( int[][] map, int x, int y, final String imagePath ) {
-		super( imagePath+"character.png", x, y, 0, 0, map[0].length-1, map.length-1 );
+	public TopViewObject( int[][] map, int x, int y, final String imagePath, final int size ) {
+		super( imagePath+"character.png", size, x, y, 0, 0, map[0].length-1, map.length-1 );
 		this.map = map;
 		this.image = new Image[3];
 		this.image[PATH     ] = new ImageIcon( imagePath + "path.png" ).getImage();
@@ -39,18 +39,18 @@ public class TopViewObject extends ObjectByKey
 					index = CHARACTER;
 				else if ( ( minX <= x ) && ( x <= maxX ) && ( minY <= y ) && ( y <= maxY ) )
 					index = map[y][x];
-				g.drawImage( image[index], x*IMGSIZE, y*IMGSIZE, IMGSIZE, IMGSIZE, null );
+				g.drawImage( image[index], x*imageSize, y*imageSize, imageSize, imageSize, null );
 			}
 		}
 	}
 
 	@Override
 	public int backgroundWidth(){
-		return IMGSIZE * ( map[0].length );
+		return imageSize * ( map[0].length );
 	}
 	@Override
 	public int backgroundHeight(){
-		return IMGSIZE * ( map.length );
+		return imageSize * ( map.length );
 	}
 }
 

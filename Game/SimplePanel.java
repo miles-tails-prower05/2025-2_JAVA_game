@@ -1,4 +1,4 @@
-// 소스파일 - 
+// 소스파일 - https://github.com/miles-tails-prower05/2025-2_JAVA_game/blob/main/Game/SimplePanel.java
 
 import java.awt.*;
 import java.awt.event.*;
@@ -41,7 +41,7 @@ public class SimplePanel extends JPanel {
         super.paintComponent(g);
 
         int index = TITLE;
-		if (panelName == "게임 오버 화면")
+		if (panelName.contains("게임 오버 화면"))
 			index = FAIL;
 		else if (panelName == "게임 클리어 화면")
 			index = SUCCESS;

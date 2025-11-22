@@ -1,3 +1,5 @@
+// 소스파일 - https://github.com/miles-tails-prower05/2025-2_JAVA_game/blob/main/src/move/MineMazePanel.java
+
 package move;
 
 import java.awt.*;

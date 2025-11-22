@@ -1,4 +1,4 @@
-// 소스파일 - https://github.com/miles-tails-prower05/2025-2_JAVA_Assignment/blob/main/src/move/MazeCharacter.java
+// 소스파일 - https://github.com/miles-tails-prower05/2025-2_JAVA_game/blob/main/src/move/MineMazeCharacter.java
 
 package move;
 
@@ -10,12 +10,16 @@ public class MineMazeCharacter extends TopViewObject {
 	
 	private Container frame;
 	private CardLayout cards;
+	private String[] panel;
+	protected int initialX, initialY;
 	protected int[][] map;
 	protected Image[] image;
 	protected final int PATH = 0, MINE = 1, CHARACTER = 2, GOAL = 3, LEFT = -1, RIGHT = 1, UP = -1, DOWN = 1, TOPMARGIN = 30;
 	
-	public MineMazeCharacter(Container frame, CardLayout cards, int[][] map, int x, int y, final String imagePath) {
-		super(map, x, y, imagePath);
+	public MineMazeCharacter(Container frame, CardLayout cards, String[] panel, int[][] map, int x, int y, final String imagePath, final int size) {
+		super(map, x, y, imagePath, size);
+		this.initialX = x;
+		this.initialY = y;
 		this.map = map;
 		this.image = new Image[4];
 		this.image[PATH     ] = new ImageIcon( imagePath + "path.png" ).getImage();
@@ -26,6 +30,7 @@ public class MineMazeCharacter extends TopViewObject {
 		// 다른 패널로 이동할 수 있도록 준비
 		this.frame = frame;
 		this.cards = cards;
+		this.panel = panel;
 	}
 	
 	// 주변의 지뢰 탐색
@@ -55,17 +60,17 @@ public class MineMazeCharacter extends TopViewObject {
 	@Override
 	public void move(int directionX, int directionY) {
 		if (map[y+directionY][x+directionX] == MINE) {
-			this.x = 1;
-			this.y = 1;
+			this.x = initialX;
+			this.y = initialY;
 			this.directionX = STOP;
 			this.directionY = STOP;
-			cards.show(frame, "2");
+			cards.show(frame, panel[3]);
 		} else if (map[y+directionY][x+directionX] == GOAL) {
-			this.x = 1;
-			this.y = 1;
+			this.x = initialX;
+			this.y = initialY;
 			this.directionX = STOP;
 			this.directionY = STOP;
-			cards.show(frame, "3");
+			cards.show(frame, panel[2]);
 		} else {
 			super.move(directionX, directionY);
 		}
@@ -81,7 +86,7 @@ public class MineMazeCharacter extends TopViewObject {
 					index = CHARACTER;
 				else if ( ( minX <= x ) && ( x <= maxX ) && ( minY <= y ) && ( y <= maxY ) )
 					index = map[y][x];
-				g.drawImage( image[index], x*IMGSIZE, TOPMARGIN+y*IMGSIZE, IMGSIZE, IMGSIZE, null );
+				g.drawImage( image[index], x*imageSize, TOPMARGIN+y*imageSize, imageSize, imageSize, null );
 			}
 		}
 	}

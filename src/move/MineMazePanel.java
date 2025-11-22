@@ -17,12 +17,13 @@ public class MineMazePanel extends ViewPanel {
 		
 		setLayout(new BorderLayout());
 		stageInfoLabel = new JLabel();
-		stageInfoLabel.setFont( new Font( "굴림", Font.BOLD, 30 ) );
+		stageInfoLabel.setFont( new Font("맑은 고딕", Font.BOLD, 32) );
+		stageInfoLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		stageInfoLabel.setText("스테이지 2: 지뢰 피하기");
 		add(stageInfoLabel, BorderLayout.NORTH);
 		
 		mineInfoLabel = new JLabel();
-		mineInfoLabel.setFont( new Font( "굴림", Font.BOLD, 17 ) );
+		mineInfoLabel.setFont( new Font("맑은 고딕", Font.BOLD, 17) );
 		add(mineInfoLabel, BorderLayout.SOUTH);
 		
 		timer.stop();

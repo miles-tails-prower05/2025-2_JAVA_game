@@ -5,6 +5,8 @@ import java.awt.event.*;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
 public class EnhancedBulletDodgePanel extends BulletDodgePanel {
@@ -12,6 +14,7 @@ public class EnhancedBulletDodgePanel extends BulletDodgePanel {
 	private Container frame;
 	private CardLayout cards;
 	private String[] panel;
+	protected JLabel stageInfoLabel;
 	private CollidableObject character;
 	private Image background;
     private ArrayList<CollidableObject> shields;
@@ -26,6 +29,12 @@ public class EnhancedBulletDodgePanel extends BulletDodgePanel {
 		this.imageSize = imageSize;
 		
 		this.background = new ImageIcon(imagePath+"background.png").getImage();
+		setLayout(new BorderLayout());
+		stageInfoLabel = new JLabel();
+		stageInfoLabel.setFont( new Font("맑은 고딕", Font.BOLD, 32) );
+		stageInfoLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		stageInfoLabel.setText("스테이지 1: 총알 피하기");
+		add(stageInfoLabel, BorderLayout.NORTH);
 		
 		this.imageShield = imagePath+"shield.png";
         this.shields = new ArrayList<CollidableObject>();
@@ -119,7 +128,8 @@ public class EnhancedBulletDodgePanel extends BulletDodgePanel {
 	
 	// 화면 출력
 	@Override
-	public void paint(Graphics g) {
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
 	    // 배경 이미지 그리기
         g.drawImage(background, 0, 0, getWidth(), getHeight(), this);
 

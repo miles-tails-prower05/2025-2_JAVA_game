@@ -14,7 +14,7 @@ public class MineMazeCharacter extends TopViewObject {
 	protected int initialX, initialY;
 	protected int[][] map;
 	protected Image[] image;
-	protected final int PATH = 0, MINE = 1, CHARACTER = 2, GOAL = 3, LEFT = -1, RIGHT = 1, UP = -1, DOWN = 1, TOPMARGIN = 30;
+	protected final int PATH = 0, MINE = 1, CHARACTER = 2, GOAL = 3, LEFT = -1, RIGHT = 1, UP = -1, DOWN = 1, TOPMARGIN = 40;
 	
 	public MineMazeCharacter(Container frame, CardLayout cards, String[] panel, int[][] map, int x, int y, final String imagePath, final int size) {
 		super(map, x, y, imagePath, size);

@@ -3,6 +3,8 @@
 package move;
 
 import java.awt.*;
+import java.awt.event.*;
+
 import javax.swing.*;
 
 public class MineMazePanel extends ViewPanel {
@@ -22,6 +24,32 @@ public class MineMazePanel extends ViewPanel {
 		mineInfoLabel = new JLabel();
 		mineInfoLabel.setFont( new Font( "굴림", Font.BOLD, 17 ) );
 		add(mineInfoLabel, BorderLayout.SOUTH);
+		
+		timer.stop();
+		
+		this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentShown(ComponentEvent e) {
+            	timer = new Timer( 100, new ActionListener() {
+                	@Override
+                	public void actionPerformed( ActionEvent event ) {
+                		update();
+                		repaint();
+                	}
+                });
+            	MineMazePanel.this.requestFocusInWindow();
+            	timer.start();
+            }
+
+            @Override
+            public void componentHidden(ComponentEvent e) {
+            	character.x = character.initialX;
+            	character.y = character.initialY;
+            	character.directionX = character.STOP;
+            	character.directionY = character.STOP;
+            	timer.stop();
+            }
+        });
 	}
 	
 	// 최신 정보 업데이트

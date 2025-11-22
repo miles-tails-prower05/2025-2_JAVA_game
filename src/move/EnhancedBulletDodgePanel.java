@@ -1,20 +1,18 @@
 package move;
 
-import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Image;
+import java.awt.*;
+import java.awt.event.*;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
+import javax.swing.Timer;
 
 public class EnhancedBulletDodgePanel extends BulletDodgePanel {
 
 	private Container frame;
 	private CardLayout cards;
 	private String[] panel;
+	private CollidableObject character;
 	private Image background;
     private ArrayList<CollidableObject> shields;
     protected String imageShield;
@@ -22,13 +20,14 @@ public class EnhancedBulletDodgePanel extends BulletDodgePanel {
 	
 	public EnhancedBulletDodgePanel(Container frame, CardLayout cards, String[] panel, CollidableObject character, String imagePath, int imageSize) {
 		super(character, imagePath+"bullet.png", imageSize);
+		this.character = character;
 		this.characterHP = 2;
 		
 		this.imageSize = imageSize;
 		
 		this.background = new ImageIcon(imagePath+"background.png").getImage();
+		
 		this.imageShield = imagePath+"shield.png";
-
         this.shields = new ArrayList<CollidableObject>();
         this.shieldCount = 0;
         
@@ -36,6 +35,34 @@ public class EnhancedBulletDodgePanel extends BulletDodgePanel {
  		this.frame = frame;
  		this.cards = cards;
  		this.panel = panel;
+ 		
+ 		timer.stop();
+ 		
+ 		this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentShown(ComponentEvent e) {
+            	timer = new Timer( 100, new ActionListener() {
+                	@Override
+                	public void actionPerformed( ActionEvent event ) {
+                		update();
+                		repaint();
+                	}
+                });
+            	timer.start();
+            }
+
+            @Override
+            public void componentHidden(ComponentEvent e) {
+            	character.directionX = character.STOP;
+            	character.directionY = character.STOP;
+    			bombs.clear();
+    			shields.clear();
+    			shieldCount = 0;
+    	        characterHP = 2; // 원래는 2
+    	        time = 300; // 원래는 300
+            	timer.stop();
+            }
+        });
 	}
 	
 	@Override
@@ -99,13 +126,10 @@ public class EnhancedBulletDodgePanel extends BulletDodgePanel {
 	    // === 클리어 또는 게임 오버 시 ===
 	    if (this.time <= 0) {
 	    	cards.show(frame, panel[2]);
-	        timer.stop();
 	        return;
 	    } 
 	    else if (this.characterHP <= 0) {
 	    	cards.show(frame, panel[3]);
-	        timer.stop();
-	        this.characterHP = 2;
 	        return;
 	    }
 

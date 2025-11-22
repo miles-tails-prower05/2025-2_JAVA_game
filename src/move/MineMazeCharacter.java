@@ -60,16 +60,8 @@ public class MineMazeCharacter extends TopViewObject {
 	@Override
 	public void move(int directionX, int directionY) {
 		if (map[y+directionY][x+directionX] == MINE) {
-			this.x = initialX;
-			this.y = initialY;
-			this.directionX = STOP;
-			this.directionY = STOP;
 			cards.show(frame, panel[3]);
 		} else if (map[y+directionY][x+directionX] == GOAL) {
-			this.x = initialX;
-			this.y = initialY;
-			this.directionX = STOP;
-			this.directionY = STOP;
 			cards.show(frame, panel[2]);
 		} else {
 			super.move(directionX, directionY);

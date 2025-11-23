@@ -1,5 +1,5 @@
-// JAVA 프로그래밍 - https://codereading101.github.io/JAVA/
-// 소스파일 - https://github.com/CodeReading101/JAVA/blob/main/src/move/BombDodgePanel.java
+// 소스파일 - https://github.com/miles-tails-prower05/2025-2_JAVA_game/blob/main/src/move/BombDodgePanel.java
+// 원본 소스파일 - https://github.com/CodeReading101/JAVA/blob/main/src/move/BombDodgePanel.java
 
 package move;
 

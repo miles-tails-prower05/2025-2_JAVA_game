@@ -2,6 +2,7 @@ package battle;
 
 import java.util.Scanner;
 
+// 전투 캐릭터
 public class BattleCharacter {
 	
 	private int action, message, HP;

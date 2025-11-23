@@ -1,15 +1,15 @@
+// 소스파일 - https://github.com/miles-tails-prower05/2025-2_JAVA_game/blob/main/src/move/EnhancedBulletDodgePanel.java
+
 package move;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import javax.swing.*;
 
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import javax.swing.Timer;
-
-public class EnhancedBulletDodgePanel extends BulletDodgePanel {
+// 개선된 총알 피하기 패널
+public class EnhancedBulletDodgePanel extends BulletDodgePanel
+{
 
 	private Container frame;
 	private CardLayout cards;
@@ -21,11 +21,12 @@ public class EnhancedBulletDodgePanel extends BulletDodgePanel {
     protected String imageShield;
     private int shieldCount, imageSize;
 	
+    // 패널 초기화
 	public EnhancedBulletDodgePanel(Container frame, CardLayout cards, String[] panel, CollidableObject character, String imagePath, int imageSize) {
 		super(character, imagePath+"bullet.png", imageSize);
+		timer.stop();
 		this.character = character;
 		this.characterHP = 2;
-		
 		this.imageSize = imageSize;
 		
 		this.background = new ImageIcon(imagePath+"bg_stage1.png").getImage();
@@ -45,9 +46,9 @@ public class EnhancedBulletDodgePanel extends BulletDodgePanel {
  		this.cards = cards;
  		this.panel = panel;
  		
- 		timer.stop();
- 		
+ 		// 화면 전환 시 반응하는 리스너 등록
  		this.addComponentListener(new ComponentAdapter() {
+ 			// 패널이 보여지면 주기적으로 활성화되는 타이머 시작
             @Override
             public void componentShown(ComponentEvent e) {
             	timer = new Timer( 100, new ActionListener() {
@@ -59,7 +60,8 @@ public class EnhancedBulletDodgePanel extends BulletDodgePanel {
                 });
             	timer.start();
             }
-
+            
+            // 패널이 숨겨지면 패널 초기화
             @Override
             public void componentHidden(ComponentEvent e) {
             	character.directionX = character.STOP;
@@ -67,16 +69,17 @@ public class EnhancedBulletDodgePanel extends BulletDodgePanel {
     			bombs.clear();
     			shields.clear();
     			shieldCount = 0;
-    	        characterHP = 2; // 원래는 2
-    	        time = 300; // 원래는 300
+    	        characterHP = 2;
+    	        time = 300;
             	timer.stop();
             }
         });
 	}
 	
+	// 최신 정보 업데이트
 	@Override
 	protected void update() {
-		// 모든 총알은 오른쪽으로 이동하며, 주기적으로 새 총알을 발사
+		// 모든 총알은 오른쪽으로 이동하며, 더 짧은 주기로 새 총알을 발사
 		for ( CollidableObject bomb : bombs )
 			bomb.move();
 		if ( ( ( time-- ) % 2 ) == 0 ) {  // 주기 변경 (원본: 8)
@@ -90,12 +93,12 @@ public class EnhancedBulletDodgePanel extends BulletDodgePanel {
 			shields.add( new CollidableObject( CollidableObject.RIGHT, CollidableObject.STOP, imageShield, imageSize, width, height ) );
 		}
 		
-		// 캐릭터는 상하로 이동하고 HP 업데이트
+		// 캐릭터는 상하로 이동하고 HP, 방어구 개수 업데이트
 		character.move( CollidableObject.STOP, character.directionY() );
 		updateHP();
 	}
 	
-	// 캐릭터와 폭탄이 충돌하면 캐릭터 HP 감소, 캐릭터와 보호막이 충돌하면 보호막 획득
+	// 캐릭터와 폭탄이 충돌하면 보호막 소모 후 캐릭터 HP 감소, 캐릭터와 방어구가 충돌하면 방어구 획득
 	@Override
 	protected void updateHP() {
 		// 총알 충돌 체크
@@ -103,22 +106,20 @@ public class EnhancedBulletDodgePanel extends BulletDodgePanel {
 			CollidableObject bomb = bombs.get(i);
 			if ( ( bomb.collide( character ) == true ) ) {
 				if (shieldCount > 0)
-                    shieldCount--; // 보호막 소모
+                    shieldCount--; // 방어구 소모
                 else
                     characterHP--;
 				bombs.remove( bomb );
-			}
-			// 이동 허용 범위를 벗어난 폭탄은 제거
-			else if ( ( bomb.collide() == true ) ) {
+			} else if ( ( bomb.collide() == true ) ) {
 				bombs.remove( bomb );
 			}
 		}
 		
-		// 보호막 충돌 체크
+		// 방어구 충돌 체크
         for (int i = 0; i < shields.size(); i++) {
             CollidableObject shield = shields.get(i);
             if (shield.collide(character)) {
-                shieldCount++; // 보호막 획득
+                shieldCount++; // 방어구 획득
                 shields.remove(shield);
             } else if (shield.collide()) {
                 shields.remove(shield);
@@ -130,10 +131,9 @@ public class EnhancedBulletDodgePanel extends BulletDodgePanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-	    // 배경 이미지 그리기
         g.drawImage(background, 0, 0, getWidth(), getHeight(), this);
 
-	    // === 클리어 또는 게임 오버 시 ===
+	    // 클리어 또는 게임 오버 시 패널 전환
 	    if (this.time <= 0) {
 	    	cards.show(frame, panel[2]);
 	        return;
@@ -143,34 +143,30 @@ public class EnhancedBulletDodgePanel extends BulletDodgePanel {
 	        return;
 	    }
 
-	    // === 캐릭터, HP, 폭탄 ===
+	    // 아니면, 체력과 방어구 개수 출력
 	    g.setColor(Color.black);
 	    g.setFont(new Font("Arial", Font.BOLD, 20));
 	    g.drawString("HP : " + hp(), 10, 30);
-
-	    character.paint(g);
-	    for (CollidableObject bomb : bombs)
-	        bomb.paint(g);
 	    
-	    // 남은 실드 표시
         g.setColor(Color.BLUE);
         g.setFont(new Font("Arial", Font.BOLD, 20));
         g.drawString("Shield : " + shieldCount, 10, 60);
 
-        // 실드 아이템 그리기
+        // 캐릭터, 총알, 방어구의 현재 게임 상황 출력
+	    character.paint(g);
+	    for (CollidableObject bomb : bombs)
+	        bomb.paint(g);
         for (CollidableObject shield : shields)
             shield.paint(g);
 
-	    // === 시간 게이지 ===
+	    // 남은 시간 게이지 출력
 	    int barHeight = 20;
 	    int barY = height - barHeight - 45;
-
 	    int maxTime = 300;
 	    int barWidth = (int)(((double) time / maxTime) * width);
 
 	    g.setColor(Color.LIGHT_GRAY);
 	    g.fillRect(0, barY, width, barHeight);
-
 	    g.setColor(Color.GREEN);
 	    g.fillRect(0, barY, barWidth, barHeight);
 
@@ -179,14 +175,12 @@ public class EnhancedBulletDodgePanel extends BulletDodgePanel {
 	@Override
 	public String hp() {
 		switch( this.characterHP ) {
-
-
-		case 2:
-			return "● ●";
-		case 1:
-			return "● ○";
-		default:
-			return "○ ○";
+			case 2:
+				return "● ●";
+			case 1:
+				return "● ○";
+			default:
+				return "○ ○";
 		}
 	}
 }

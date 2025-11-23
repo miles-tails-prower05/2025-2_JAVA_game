@@ -1,4 +1,5 @@
-// 소스파일 - 
+// 소스파일 - https://github.com/miles-tails-prower05/2025-2_JAVA_game/blob/main/src/move/CollidableObject.java
+// 원본 소스파일 - https://github.com/CodeReading101/JAVA/blob/main/src/move/CollidableObject.java
 
 package move;
 // 충돌가능한 객체
@@ -16,7 +17,7 @@ public class CollidableObject extends ObjectByKey
 		if ( ( directionX == STOP ) && ( directionY == DOWN ) ) {
 			this.x = (int)( Math.random() * this.maxX );
 		}
-		// 총알 초기화 : 왼쪽(임의위치)에서 오른쪽으로 총알을 발사
+		// 총알, 방어구 초기화 : 왼쪽(임의위치)에서 오른쪽으로 총알 또는 방어구를 발사
 		else if ( ( directionX == RIGHT ) && ( directionY == STOP ) ) {
 			this.y = imageSize + (int)( Math.random() * ( this.maxY - imageSize ) );
 		}

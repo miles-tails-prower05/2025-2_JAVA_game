@@ -7,7 +7,7 @@ import battle.*;
 import move.*;
 
 public class GameMain {
-
+	// 프로그램 시작
 	public static void main(String[] args) {
 		final String imagePath = "C:\\Users\\kunwo\\eclipse-workspace\\JAVA_Game\\src\\"; // 원본: C:\\Users\\user\\Downloads\\JAVA-main\\src\\
 		final int WIDTH = 1280;
@@ -54,5 +54,5 @@ public class GameMain {
 		frame.pack();
 		frame.setVisible(true);
 	}
-
+	// 프레임의 X 버튼 누르면 프로그램 종료
 }

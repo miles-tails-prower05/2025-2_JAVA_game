@@ -6,6 +6,7 @@ import java.awt.*;
 import java.util.Arrays;
 import javax.swing.*;
 
+// 지뢰 피하기 캐릭터
 public class MineMazeCharacter extends TopViewObject {
 	
 	private Container frame;
@@ -16,6 +17,7 @@ public class MineMazeCharacter extends TopViewObject {
 	protected Image[] image;
 	protected final int PATH = 0, MINE = 1, CHARACTER = 2, GOAL = 3, LEFT = -1, RIGHT = 1, UP = -1, DOWN = 1, TOPMARGIN = 40;
 	
+	// 캐릭터 초기화: 이미지, 좌표 설정
 	public MineMazeCharacter(Container frame, CardLayout cards, String[] panel, int[][] map, int x, int y, final String imagePath, final int size) {
 		super(map, x, y, imagePath, size);
 		this.initialX = x;
@@ -37,7 +39,7 @@ public class MineMazeCharacter extends TopViewObject {
 	public int searchMine() {
 		int count = 0;
 		
-		// 탐색 영역 설정
+		// 탐색 영역(캐릭터의 상하좌우) 설정
 		int[][] searchArea = new int[4][2];
 		for (int i = 0; i < searchArea.length; i++) {
 		    searchArea[i] = new int[]{this.x, this.y};
@@ -56,7 +58,7 @@ public class MineMazeCharacter extends TopViewObject {
 		return count;
 	}
 	
-	// 지뢰에 닿으면 사망, 목적지에 도착하면 클리어
+	// 지뢰에 닿으면 사망, 목적지에 도착하면 클리어, 아니면 캐릭터 이동
 	@Override
 	public void move(int directionX, int directionY) {
 		if (map[y+directionY][x+directionX] == MINE) {
@@ -68,9 +70,9 @@ public class MineMazeCharacter extends TopViewObject {
 		}
 	}
 	
-	// 캐릭터와 전체 맵을 출력(제목을 위한 상단 여백, 골인 지점 추가)
+	// 캐릭터와 전체 맵을 출력
 	@Override
-	public void paint(Graphics g) {
+	public void paint(Graphics g) { // 제목을 위한 상단 여백, 골인 지점 추가
 		for( int y = 0; y <= map.length; y++ ){
 			for( int x = 0; x <= map[0].length; x++ ){
 				int index = MINE;

@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+// 심플 패널
 public class SimplePanel extends JPanel {
 	protected Image panelImage;
 	protected final int TITLE = 0, FAIL = 1, SUCCESS = 2;
@@ -16,6 +17,7 @@ public class SimplePanel extends JPanel {
 	
 	// 패널 초기화
 	public SimplePanel( Container frame, CardLayout cards, String[] panel, final String imagePath ) {
+		// 패널 기초 정보 설정: 패널이름, 다음 패널번호, 사용할 이미지, 버튼 텍스트, 버튼 이미지
 		panelName = panel[1];
 		nextPanel = panel[2];
 		panelImagePath = panel[4];
@@ -24,8 +26,8 @@ public class SimplePanel extends JPanel {
 			buttonImage = panel[6];
 		this.panelImage = new ImageIcon( imagePath + panelImagePath ).getImage();
 		
-		setLayout(null);
 		// 클릭하면 반응하는 버튼을 추가
+		setLayout(null);
 		if (panel.length > 6)
 			button = new JButton(new ImageIcon(new ImageIcon(imagePath + buttonImage).getImage().getScaledInstance( 200, 50, Image.SCALE_SMOOTH )));
 		else
@@ -39,13 +41,14 @@ public class SimplePanel extends JPanel {
 		this.cards = cards;
 	}
 	
+	// 배경 이미지 그리기
 	@Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(panelImage, 0, 0, null);
     }
 	
-	// 버튼 클릭시 반응
+	// 버튼 클릭시 다음 패널로 이동
 	private class ClickListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent event) {

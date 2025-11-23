@@ -1,4 +1,5 @@
 // 소스파일 - https://github.com/miles-tails-prower05/2025-2_JAVA_game/blob/main/src/move/ObjectByKey.java
+// 원본 소스파일 - https://github.com/CodeReading101/JAVA/blob/main/src/move/ObjectByKey.java
 
 package move;
 

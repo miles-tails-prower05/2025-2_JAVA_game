@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+// 전투 패널
 public class BattlePanel extends JPanel implements ActionListener {
 	protected final int SHOOT = 0, DODGE = 1, KNIFE = 2, IDLE = 3;
 	protected final int PLAYER = 0, ENEMY = 1;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<umlmark-class version="0.8.1" icons="true" show-relationships="true" generalizations="true" realizations="true" 
-  associations="true" dependencies="false" nesting-rel="true" router="FAN">  
+<umlmark-class version="0.8.1" icons="true" image-type="JPEG" show-relationships="true" generalizations="true" 
+  realizations="true" associations="true" dependencies="false" nesting-rel="true" router="FAN">  
   <class id="1" language="java" name="battle.BattleCharacter" project="JAVA_Game" 
     file="/JAVA_Game/src/battle/BattleCharacter.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="734" y="340"/>    
@@ -39,10 +39,10 @@
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <generalization id="5">    
+  <realization id="5">    
     <end type="SOURCE" refId="2"/>    
-    <end type="TARGET" refId="4"/>  
-  </generalization>  
+    <end type="TARGET" refId="3"/>  
+  </realization>  
   <association id="6">    
     <end type="SOURCE" refId="2" navigable="false">      
       <attribute id="7" name="player"/>      
@@ -60,10 +60,10 @@
     <end type="TARGET" refId="1" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="12">    
+  <generalization id="12">    
     <end type="SOURCE" refId="2"/>    
-    <end type="TARGET" refId="3"/>  
-  </realization>  
+    <end type="TARGET" refId="4"/>  
+  </generalization>  
   <classifier-attribute resize-to-fit="true" stereotype="true" package="true" default-value="false" signature="true" 
     sort="true" accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true" static="false"/>    

@@ -28,7 +28,7 @@ public class EnhancedBulletDodgePanel extends BulletDodgePanel {
 		
 		this.imageSize = imageSize;
 		
-		this.background = new ImageIcon(imagePath+"background.png").getImage();
+		this.background = new ImageIcon(imagePath+"bg_stage1.png").getImage();
 		setLayout(new BorderLayout());
 		stageInfoLabel = new JLabel();
 		stageInfoLabel.setFont( new Font("맑은 고딕", Font.BOLD, 32) );
@@ -80,7 +80,7 @@ public class EnhancedBulletDodgePanel extends BulletDodgePanel {
 		for ( CollidableObject bomb : bombs )
 			bomb.move();
 		if ( ( ( time-- ) % 2 ) == 0 ) {  // 주기 변경 (원본: 8)
-			bombs.add( new CollidableObject( CollidableObject.RIGHT, CollidableObject.STOP, imageBomb, imageSize, width, height ) );
+			bombs.add( new CollidableObject( CollidableObject.RIGHT, CollidableObject.STOP, imageBomb, 55, width, height ) );
 		}
 		
 		// 모든 방어구는 오른쪽으로 이동하며, 주기적으로 새 방어구 생성

@@ -23,8 +23,8 @@ public class MineMazeCharacter extends TopViewObject {
 		this.map = map;
 		this.image = new Image[4];
 		this.image[PATH     ] = new ImageIcon( imagePath + "path.png" ).getImage();
-		this.image[MINE     ] = new ImageIcon( imagePath + "mine.png" ).getImage();
-		this.image[CHARACTER] = new ImageIcon( imagePath + "character.png" ).getImage();
+		this.image[MINE     ] = new ImageIcon( imagePath + "path.png" ).getImage();
+		this.image[CHARACTER] = new ImageIcon( imagePath + "character2.png" ).getImage();
 		this.image[GOAL     ] = new ImageIcon( imagePath + "goal.png" ).getImage();
 		
 		// 다른 패널로 이동할 수 있도록 준비

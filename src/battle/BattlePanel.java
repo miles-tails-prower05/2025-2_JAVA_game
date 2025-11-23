@@ -7,13 +7,15 @@ import javax.swing.*;
 public class BattlePanel extends JPanel implements ActionListener {
 	protected final int SHOOT = 0, DODGE = 1, KNIFE = 2, IDLE = 3;
 	protected final int PLAYER = 0, ENEMY = 1;
-	protected final String[] actionMessage;
+	protected final String[] playerActionMessage, enemyActionMessage;
 	private Container frame;
 	private CardLayout cards;
 	private String[] panel;
+	private ImageIcon backgroundImage;
+    private String imagePath;
 	protected ImageIcon[][] image;
 	protected BattleCharacter player, enemy;
-	protected JLabel stageInfoLabel, imgPlayer, imgEnemy, messageLabel;
+	protected JLabel stageInfoLabel, imgPlayer, imgEnemy, playerMessage, enemyMessage;
 	protected JProgressBar playerHPBar, enemyHPBar;
 	protected JButton[] button;
 	protected Timer timer;
@@ -21,15 +23,24 @@ public class BattlePanel extends JPanel implements ActionListener {
 	public BattlePanel(Container frame, CardLayout cards, String[] panel, String imagePath) {
 		setLayout(new BorderLayout());
 		
-		this.actionMessage = new String[] { "총을 쏴서 데미지를 입혔습니다",
-				   			   				"총을 쐈지만 빗나갔습니다",
-				   			   				"방어에 성공했습니다",
-				   			   				"방어에 실패했습니다",
-				   			   				"칼로 공격하여 데미지를 입혔습니다",
-				   			   				"칼로 공격하는데 성공했지만, 자신도 데미지를 입었습니다",
-				   			   				"상대가 회피하였습니다",
-				   			   				" "
-										  };
+		this.playerActionMessage = new String[] { "총을 쏴서 데미지를 입혔습니다",
+				   			   				      "총을 쐈지만 빗나갔습니다",
+			   			   				      	  "방어에 성공했습니다",
+			   			   				      	  "방어에 실패했습니다",
+			   			   				      	  "칼로 공격하여 데미지를 입혔습니다",
+			   			   				      	  "칼로 공격하는데 성공했지만, 자신도 데미지를 입었습니다",
+			   			   				      	  "상대가 회피하였습니다",
+			   			   				      	  " "
+										  		};
+		this.enemyActionMessage = new String[] { "적군이 총을 쏴서 데미지를 입혔습니다",
+				      							 "적군이 총을 쐈지만 빗나갔습니다",
+				      							 "적군이 방어에 성공했습니다",
+				      							 "적군이 방어에 실패했습니다",
+				      							 "적군이 칼로 공격하여 데미지를 입혔습니다",
+				      							 "적군이 칼로 공격하는데 성공했지만, 자신도 데미지를 입었습니다",
+				      							 "상대가 회피하였습니다",
+				      							 " "
+		  									   };
 		
 		// 가위바위보 3가지, 미선택 1가지, 승패 2가지를 고려하여 이미지를 준비
 		image = new ImageIcon[4][2];
@@ -46,33 +57,46 @@ public class BattlePanel extends JPanel implements ActionListener {
 		
 		
 		// GUI 준비
+        this.backgroundImage = new ImageIcon(new ImageIcon(imagePath + "bg_stage3.png").getImage());
+		
+		JPanel topPanel = new JPanel(new BorderLayout());
+		topPanel.setOpaque(false);
 		stageInfoLabel = new JLabel();
 		stageInfoLabel.setFont( new Font("맑은 고딕", Font.BOLD, 32) );
 		stageInfoLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		stageInfoLabel.setText("스테이지 3: 적과의 전투");
-		add(stageInfoLabel, BorderLayout.NORTH);
+		topPanel.add(stageInfoLabel, BorderLayout.NORTH);
+		
+		enemyMessage = new JLabel(enemyActionMessage[7]);
+        enemyMessage.setFont(new Font("맑은 고딕", Font.PLAIN, 25));
+        enemyMessage.setForeground(Color.WHITE);
+        enemyMessage.setHorizontalAlignment(SwingConstants.RIGHT);
+        topPanel.add(enemyMessage, BorderLayout.SOUTH);
+        add(topPanel, BorderLayout.NORTH);
 		
 		JPanel battleArena = new JPanel(new GridLayout(2, 1)); // 2행 1열 (위: 적, 아래: 나)
+		battleArena.setOpaque(false);
 		
 		JPanel enemyPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 20, 20));
-        enemyPanel.setBackground(Color.WHITE);
+		enemyPanel.setOpaque(false);
         enemyHPBar = createHPBar(Color.RED);
         imgEnemy = new JLabel(image[IDLE][ENEMY]);
         enemyPanel.add(enemyHPBar);
         enemyPanel.add(imgEnemy);
         
         JPanel playerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 20));
-        playerPanel.setBackground(Color.WHITE);
+        playerPanel.setOpaque(false);
         imgPlayer = new JLabel(image[IDLE][PLAYER]);
         
         JPanel playerControlPanel = new JPanel(new BorderLayout());
-        playerControlPanel.setBackground(Color.WHITE);
+        playerControlPanel.setOpaque(false);
         playerHPBar = createHPBar(Color.GREEN); // 아군은 초록색
         playerControlPanel.add(playerHPBar, BorderLayout.NORTH);
         playerPanel.add(imgPlayer);
         playerPanel.add(playerControlPanel);
         
-        JPanel btnPanel = new JPanel(new GridLayout(1, 3, 5, 5)); // 1행 3열, 간격 5		
+        JPanel btnPanel = new JPanel(new GridLayout(1, 3, 5, 5)); // 1행 3열, 간격 5
+        btnPanel.setOpaque(false);
 		// 화면 아래쪽에 가위바위보 입력 버튼 초기화
 		button = new JButton[3];
 		button[SHOOT] = new JButton("총 쏘기");
@@ -90,9 +114,10 @@ public class BattlePanel extends JPanel implements ActionListener {
         battleArena.add(playerPanel);
         add(battleArena, BorderLayout.CENTER);
         
-        messageLabel = new JLabel(actionMessage[7]);
-        messageLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 25));
-        add(messageLabel, BorderLayout.SOUTH);
+        playerMessage = new JLabel(playerActionMessage[7]);
+        playerMessage.setFont(new Font("맑은 고딕", Font.PLAIN, 25));
+        playerMessage.setForeground(Color.WHITE);
+        add(playerMessage, BorderLayout.SOUTH);
 		
 		// 다른 패널로 이동할 수 있도록 준비
  		this.frame = frame;
@@ -127,7 +152,8 @@ public class BattlePanel extends JPanel implements ActionListener {
                 enemyHPBar.setValue(100);
                 enemyHPBar.setString("체력: 100");
             	
-            	messageLabel.setText(actionMessage[7]);
+                playerMessage.setText(playerActionMessage[7]);
+                enemyMessage.setText(enemyActionMessage[7]);
             }
         });
 	}
@@ -189,11 +215,11 @@ public class BattlePanel extends JPanel implements ActionListener {
 		
 		if (enemy.isDead() == true) {
 			cards.show(frame, panel[2]);
-			messageLabel.setText("적군 사망");
+			enemyMessage.setText("적군 사망");
 			return;
 		} else if (player.isDead() == true) {
 			cards.show(frame, panel[3]);
-			messageLabel.setText("플레이어 사망");
+			playerMessage.setText("플레이어 사망");
 			return;
 		}
 		
@@ -201,7 +227,8 @@ public class BattlePanel extends JPanel implements ActionListener {
 		imgEnemy.setIcon( image[ playerB ][ ENEMY ] );
 		updateHPBar(playerHPBar, player.returnHP());
         updateHPBar(enemyHPBar, enemy.returnHP());
-		messageLabel.setText(actionMessage[player.returnMessage()]);
+        playerMessage.setText(playerActionMessage[player.returnMessage()]);
+        enemyMessage.setText(enemyActionMessage[enemy.returnMessage()]);
 		
 		button[0].setEnabled( false );
 		button[1].setEnabled( false );
@@ -215,5 +242,20 @@ public class BattlePanel extends JPanel implements ActionListener {
 			return DODGE;
 		else
 			return KNIFE;
+	}
+	
+	@Override
+	protected void paintComponent(Graphics g) {
+	    super.paintComponent(g); // 기본적인 JPanel 그리기를 수행
+	    
+	    if (backgroundImage != null) {
+	        // 패널의 크기에 맞게 배경 이미지를 늘려서 그립니다.
+	        g.drawImage(
+	            backgroundImage.getImage(), 
+	            0, 0, // 시작 위치
+	            getWidth(), getHeight(), // 그릴 영역의 너비와 높이
+	            this // ImageObserver
+	        );
+	    }
 	}
 }

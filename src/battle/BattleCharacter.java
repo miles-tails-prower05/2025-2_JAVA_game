@@ -65,6 +65,7 @@ public class BattleCharacter {
         
         if ((this.action == DODGE) && (this.message == 2)) {
         	damageToPlayer = 0;
+        	counterpart.rewriteMessage(6);
         }
         if ((counterpart.action == DODGE) && (counterpart.message == 2)) {
         	damageToCounterpart = 0;
@@ -80,6 +81,11 @@ public class BattleCharacter {
     		return true;
     	else
     		return false;
+    }
+    
+    public void rewriteMessage(int message) {
+    	this.message = message;
+    	return;
     }
     
     public int returnMessage() {

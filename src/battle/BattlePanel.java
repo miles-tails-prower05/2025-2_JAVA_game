@@ -1,3 +1,5 @@
+// 소스코드 - https://github.com/miles-tails-prower05/2025-2_JAVA_game/blob/main/src/battle/BattlePanel.java
+
 package battle;
 
 import java.awt.*;
@@ -13,7 +15,6 @@ public class BattlePanel extends JPanel implements ActionListener {
 	private CardLayout cards;
 	private String[] panel;
 	private ImageIcon backgroundImage;
-    private String imagePath;
 	protected ImageIcon[][] image;
 	protected BattleCharacter player, enemy;
 	protected JLabel stageInfoLabel, imgPlayer, imgEnemy, playerMessage, enemyMessage;
@@ -21,9 +22,9 @@ public class BattlePanel extends JPanel implements ActionListener {
 	protected JButton[] button;
 	protected Timer timer;
 	
+	// 전투 패널 초기화
 	public BattlePanel(Container frame, CardLayout cards, String[] panel, String imagePath) {
-		setLayout(new BorderLayout());
-		
+		// 전투 액션에 대한 메시지 준비
 		this.playerActionMessage = new String[] { "총을 쏴서 데미지를 입혔습니다",
 				   			   				      "총을 쐈지만 빗나갔습니다",
 			   			   				      	  "방어에 성공했습니다",
@@ -43,7 +44,7 @@ public class BattlePanel extends JPanel implements ActionListener {
 				      							 " "
 		  									   };
 		
-		// 가위바위보 3가지, 미선택 1가지, 승패 2가지를 고려하여 이미지를 준비
+		// 전투 액션 3가지, IDLE 상태 1가지, 플레이어과 적군 2가지를 고려하여 이미지를 준비
 		image = new ImageIcon[4][2];
 		image[SHOOT][PLAYER] = new ImageIcon( new ImageIcon( imagePath + "character3_gun.png"  ).getImage().getScaledInstance( 200, 200, Image.SCALE_SMOOTH ) );
 		image[SHOOT][ENEMY ] = new ImageIcon( new ImageIcon( imagePath + "enemy_gun.png"       ).getImage().getScaledInstance( 200, 200, Image.SCALE_SMOOTH ) );
@@ -54,12 +55,10 @@ public class BattlePanel extends JPanel implements ActionListener {
 		image[IDLE ][PLAYER] = new ImageIcon( new ImageIcon( imagePath + "character3_idle.png" ).getImage().getScaledInstance( 200, 200, Image.SCALE_SMOOTH ) );
 		image[IDLE ][ENEMY ] = new ImageIcon( new ImageIcon( imagePath + "enemy_idle.png"      ).getImage().getScaledInstance( 200, 200, Image.SCALE_SMOOTH ) );
 		
-		// 화면 위쪽에 가위바위보 이미지 초기화
-		
-		
-		// GUI 준비
+		setLayout(new BorderLayout());
         this.backgroundImage = new ImageIcon(new ImageIcon(imagePath + "bg_stage3.png").getImage());
 		
+        // 화면 위쪽에 제목과 적군 액션에 대한 메시지 초기화
 		JPanel topPanel = new JPanel(new BorderLayout());
 		topPanel.setOpaque(false);
 		stageInfoLabel = new JLabel();
@@ -75,30 +74,35 @@ public class BattlePanel extends JPanel implements ActionListener {
         topPanel.add(enemyMessage, BorderLayout.SOUTH);
         add(topPanel, BorderLayout.NORTH);
 		
+        // 화면 중간에 플레이어와 적군의 전투 공간 초기화
 		JPanel battleArena = new JPanel(new GridLayout(2, 1)); // 2행 1열 (위: 적, 아래: 나)
 		battleArena.setOpaque(false);
 		
+		// 적군의 이미지, 체력바 초기화
 		JPanel enemyPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 20, 20));
 		enemyPanel.setOpaque(false);
+		
         enemyHPBar = createHPBar(Color.RED);
         imgEnemy = new JLabel(image[IDLE][ENEMY]);
         enemyPanel.add(enemyHPBar);
         enemyPanel.add(imgEnemy);
         
+        // 플레이어 이미지, 체력바 초기화
         JPanel playerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 20));
         playerPanel.setOpaque(false);
         imgPlayer = new JLabel(image[IDLE][PLAYER]);
         
         JPanel playerControlPanel = new JPanel(new BorderLayout());
         playerControlPanel.setOpaque(false);
+        
         playerHPBar = createHPBar(Color.GREEN); // 아군은 초록색
         playerControlPanel.add(playerHPBar, BorderLayout.NORTH);
         playerPanel.add(imgPlayer);
         playerPanel.add(playerControlPanel);
         
+        // 화면 아래쪽에 전투 액션 버튼 초기화
         JPanel btnPanel = new JPanel(new GridLayout(1, 3, 5, 5)); // 1행 3열, 간격 5
         btnPanel.setOpaque(false);
-		// 화면 아래쪽에 가위바위보 입력 버튼 초기화
 		button = new JButton[3];
 		button[SHOOT] = new JButton("총 쏘기");
 		button[DODGE] = new JButton("피하기");
@@ -115,6 +119,7 @@ public class BattlePanel extends JPanel implements ActionListener {
         battleArena.add(playerPanel);
         add(battleArena, BorderLayout.CENTER);
         
+        // 화면 최하단에 플레이어의 액션에 대한 메시지 초기화
         playerMessage = new JLabel(playerActionMessage[7]);
         playerMessage.setFont(new Font("맑은 고딕", Font.PLAIN, 25));
         playerMessage.setForeground(Color.WHITE);
@@ -125,9 +130,10 @@ public class BattlePanel extends JPanel implements ActionListener {
  		this.cards = cards;
  		this.panel = panel;
 		
-		// 전투 준비
+ 		// 전투 준비
  		this.player = new BattleCharacter();
 		this.enemy = new BattleCharacter();
+		
 		this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentShown(ComponentEvent e) {
@@ -144,10 +150,10 @@ public class BattlePanel extends JPanel implements ActionListener {
             public void componentHidden(ComponentEvent e) {
             	BattlePanel.this.player = new BattleCharacter();
             	BattlePanel.this.enemy = new BattleCharacter();
+            	
             	imgPlayer.setIcon( image[IDLE][ PLAYER ] );
         		imgEnemy.setIcon( image[IDLE][ ENEMY ] );
         		
-        		// 체력바 리셋
                 playerHPBar.setValue(100);
                 playerHPBar.setString("체력: 100");
                 enemyHPBar.setValue(100);
@@ -159,6 +165,7 @@ public class BattlePanel extends JPanel implements ActionListener {
         });
 	}
 	
+	// 체력바 생성
 	private JProgressBar createHPBar(Color color) {
         JProgressBar bar = new JProgressBar(0, 100); // 최소 0, 최대 100
         bar.setValue(100);                           // 초기값
@@ -183,12 +190,13 @@ public class BattlePanel extends JPanel implements ActionListener {
         return bar;
     }
 	
+	// 체력바 업데이트
 	private void updateHPBar(JProgressBar bar, int hp) {
         bar.setValue(hp);
         bar.setString("체력: " + hp);
     }
 	
-	// 물음표 제시하고 버튼 활성화
+	// IDLE 상태 이미지 제시하고 버튼 활성화
 	public void ready() {
 		imgPlayer.setIcon( image[IDLE][PLAYER] );
 		imgEnemy.setIcon( image[IDLE][ENEMY] );
@@ -197,18 +205,19 @@ public class BattlePanel extends JPanel implements ActionListener {
 		button[2].setEnabled( true );
 	}
 	
-	// 가위바위보 내기
+	// 전투하기
 	@Override
 	public void actionPerformed( ActionEvent event ) {
-		// 승패 결과 제시
+		// 전투 액션 선택 후 결과 제시
 		int player = select( event );
 		int enemy = (int)( Math.random() * 3 );
 		show( player, enemy );
+		
 		// 다음 판은 잠시 대기
 		timer.start();
 	}
 	
-	// 승패 결과 제시하고 버튼 비활성화
+	// 결과 제시하고 버튼 비활성화
 	public void show( int playerA, int playerB ) {
 		player.setAction(playerA);
 		enemy.setAction(playerB);
@@ -236,6 +245,7 @@ public class BattlePanel extends JPanel implements ActionListener {
 		button[2].setEnabled( false );
 	}
 	
+	// 선택된 버튼에 따라 플레이어의 액션 반환
 	public int select( ActionEvent event ) {
 		if( event.getSource() == button[SHOOT] )
 			return SHOOT;
@@ -245,17 +255,16 @@ public class BattlePanel extends JPanel implements ActionListener {
 			return KNIFE;
 	}
 	
+	// 배경 이미지 그리기
 	@Override
 	protected void paintComponent(Graphics g) {
-	    super.paintComponent(g); // 기본적인 JPanel 그리기를 수행
-	    
+	    super.paintComponent(g);
 	    if (backgroundImage != null) {
-	        // 패널의 크기에 맞게 배경 이미지를 늘려서 그립니다.
 	        g.drawImage(
 	            backgroundImage.getImage(), 
-	            0, 0, // 시작 위치
-	            getWidth(), getHeight(), // 그릴 영역의 너비와 높이
-	            this // ImageObserver
+	            0, 0,
+	            getWidth(), getHeight(),
+	            this
 	        );
 	    }
 	}

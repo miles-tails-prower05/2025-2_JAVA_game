@@ -5,28 +5,31 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class SimplePanel extends JPanel {
-	protected Image[] image;
+	protected Image panelImage;
 	protected final int TITLE = 0, FAIL = 1, SUCCESS = 2;
-	private String panelName;
+	private String panelName, panelImagePath;
 	private String nextPanel;
-	private String buttonLabel;
+	private String buttonLabel, buttonImage;
 	private Container frame;
 	private CardLayout cards;
 	private JButton button;
 	
 	// 패널 초기화
 	public SimplePanel( Container frame, CardLayout cards, String[] panel, final String imagePath ) {
-		this.image = new Image[3];
-		this.image[TITLE  ] = new ImageIcon( imagePath + "title.png" ).getImage();
-		this.image[FAIL   ] = new ImageIcon( imagePath + "fail.png" ).getImage();
-		this.image[SUCCESS] = new ImageIcon( imagePath + "success.png" ).getImage();
 		panelName = panel[1];
 		nextPanel = panel[2];
+		panelImagePath = panel[4];
 		buttonLabel = panel[5];
+		if (panel.length > 6)
+			buttonImage = panel[6];
+		this.panelImage = new ImageIcon( imagePath + panelImagePath ).getImage();
 		
 		setLayout(null);
 		// 클릭하면 반응하는 버튼을 추가
-		button = new JButton(buttonLabel);
+		if (panel.length > 6)
+			button = new JButton(new ImageIcon(new ImageIcon(imagePath + buttonImage).getImage().getScaledInstance( 200, 50, Image.SCALE_SMOOTH )));
+		else
+			button = new JButton(buttonLabel);
 		button.addActionListener(new ClickListener());
 		button.setBounds(900, 500, 200, 50);
 		add(button);
@@ -39,13 +42,7 @@ public class SimplePanel extends JPanel {
 	@Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
-        int index = TITLE;
-		if (panelName.contains("게임 오버 화면"))
-			index = FAIL;
-		else if (panelName == "게임 클리어 화면")
-			index = SUCCESS;
-        g.drawImage(image[index], 0, 0, null);
+        g.drawImage(panelImage, 0, 0, null);
     }
 	
 	// 버튼 클릭시 반응

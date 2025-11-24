@@ -161,7 +161,7 @@ public class EnhancedBulletDodgePanel extends BombDodgePanel
 
 	    // 남은 시간 게이지 출력
 	    int barHeight = 20;
-	    int barY = height - barHeight - 45;
+	    int barY = 720 - barHeight - 39;
 	    int maxTime = 300;
 	    int barWidth = (int)(((double) time / maxTime) * width);
 

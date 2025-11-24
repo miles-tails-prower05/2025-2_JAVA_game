@@ -46,12 +46,13 @@ public class GameMain {
 		for( int i = 0; i < 8; i++ ) {
 			frame.add(new SimplePanel(frame.getContentPane(), cards, panels[i], imagePath + "image\\"), panels[i][0]);
 		}
-		frame.add(new EnhancedBulletDodgePanel(frame.getContentPane(), cards, panels[8], new CollidableObject(imagePath+"move\\image\\character1.png", 70, WIDTH-70, HEIGHT/2, WIDTH, HEIGHT ), imagePath+"move\\image\\", 70), panels[8][0]);
+		frame.add(new EnhancedBulletDodgePanel(frame.getContentPane(), cards, panels[8], new CollidableObject(imagePath+"move\\image\\character1.png", 70, WIDTH-70, HEIGHT/2, WIDTH, HEIGHT-130 ), imagePath+"move\\image\\", 70), panels[8][0]);
 		frame.add(new MineMazePanel(new MineMazeCharacter(frame.getContentPane(), cards, panels[9], map, 1, 1, imagePath + "move\\image\\", 40)), panels[9][0]);
 		frame.add(new BattlePanel(frame.getContentPane(), cards, panels[10], imagePath+"battle\\image\\"), panels[10][0]);
 		frame.setPreferredSize(new Dimension(WIDTH,HEIGHT));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
+		frame.setResizable(false);
 		frame.setVisible(true);
 	}
 	// 프레임의 X 버튼 누르면 프로그램 종료

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 // 개선된 총알 피하기 패널
-public class EnhancedBulletDodgePanel extends BulletDodgePanel
+public class EnhancedBulletDodgePanel extends BombDodgePanel
 {
 
 	private Container frame;

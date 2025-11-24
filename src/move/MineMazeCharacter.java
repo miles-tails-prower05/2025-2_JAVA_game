@@ -7,7 +7,7 @@ import java.util.Arrays;
 import javax.swing.*;
 
 // 지뢰 피하기 캐릭터
-public class MineMazeCharacter extends TopViewObject {
+public class MineMazeCharacter extends ObjectByKey {
 	
 	private Container frame;
 	private CardLayout cards;
@@ -19,7 +19,7 @@ public class MineMazeCharacter extends TopViewObject {
 	
 	// 캐릭터 초기화: 이미지, 좌표 설정
 	public MineMazeCharacter(Container frame, CardLayout cards, String[] panel, int[][] map, int x, int y, final String imagePath, final int size) {
-		super(map, x, y, imagePath, size);
+		super( imagePath+"character.png", size, x, y, 0, 0, map[0].length-1, map.length-1 );
 		this.initialX = x;
 		this.initialY = y;
 		this.map = map;

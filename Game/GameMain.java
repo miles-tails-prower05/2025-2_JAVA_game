@@ -25,7 +25,7 @@ public class GameMain {
 		
 		// 패널 준비 : 패널번호, 패널이름, 기본 다음 패널번호, 실패시 다음 패널번호, 사용할 이미지, 버튼 텍스트, 버튼 이미지
 		String[][] panels = {
-				{ "1",  "타이틀 화면",             "10", "", "title.png",       "게임시작", "button_Gstart.jpg" },
+				{ "1",  "타이틀 화면",             "2", "", "title.png",       "게임시작", "button_Gstart.jpg" },
 				{ "2",  "스테이지 1: 게임 정보 화면", "9", "", "info_stage1.png", "시작하기", "button_Sstart.jpg" },
 				{ "3",  "스테이지 1: 게임 오버 화면", "9", "", "fail.png",        "다시하기", "button_retry.jpg" },
 				{ "4",  "스테이지 2: 게임 정보 화면", "10","", "info_stage2.png", "시작하기", "button_Sstart.jpg" },

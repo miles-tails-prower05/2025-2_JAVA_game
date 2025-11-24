@@ -31,7 +31,7 @@ public class MineMazePanel extends ViewPanel {
 		
 		mineInfoLabel = new JLabel();
 		mineInfoLabel.setFont( new Font("맑은 고딕", Font.BOLD, 30) );
-		mineInfoLabel.setForeground(Color.RED);
+		mineInfoLabel.setForeground(Color.PINK);
 		add(mineInfoLabel, BorderLayout.SOUTH);
 		
 		// 화면 전환 시 반응하는 리스너 등록

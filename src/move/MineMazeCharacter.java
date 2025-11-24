@@ -15,7 +15,7 @@ public class MineMazeCharacter extends TopViewObject {
 	protected int initialX, initialY;
 	protected int[][] map;
 	protected Image[] image;
-	protected final int PATH = 0, MINE = 1, CHARACTER = 2, GOAL = 3, LEFT = -1, RIGHT = 1, UP = -1, DOWN = 1, TOPMARGIN = 40;
+	protected final int PATH = 0, MINE = 1, CHARACTER = 2, GOAL = 3, LEFT = -1, RIGHT = 1, UP = -1, DOWN = 1, LEFTMARGIN = -10, TOPMARGIN = 80;
 	
 	// 캐릭터 초기화: 이미지, 좌표 설정
 	public MineMazeCharacter(Container frame, CardLayout cards, String[] panel, int[][] map, int x, int y, final String imagePath, final int size) {
@@ -61,6 +61,10 @@ public class MineMazeCharacter extends TopViewObject {
 	// 지뢰에 닿으면 사망, 목적지에 도착하면 클리어, 아니면 캐릭터 이동
 	@Override
 	public void move(int directionX, int directionY) {
+		if (y+directionY < 0 || y+directionY >= map.length || x+directionX < 0 || x+directionX >= map[0].length) {
+			return; 
+		}
+		
 		if (map[y+directionY][x+directionX] == MINE) {
 			cards.show(frame, panel[3]);
 		} else if (map[y+directionY][x+directionX] == GOAL) {
@@ -73,14 +77,14 @@ public class MineMazeCharacter extends TopViewObject {
 	// 캐릭터와 전체 맵을 출력
 	@Override
 	public void paint(Graphics g) { // 제목을 위한 상단 여백, 골인 지점 추가
-		for( int y = 0; y <= map.length; y++ ){
-			for( int x = 0; x <= map[0].length; x++ ){
+		for( int y = 0; y < map.length; y++ ){
+			for( int x = 0; x < map[0].length; x++ ){
 				int index = MINE;
 				if ( ( this.x == x ) && ( this.y == y ) )
 					index = CHARACTER;
 				else if ( ( minX <= x ) && ( x <= maxX ) && ( minY <= y ) && ( y <= maxY ) )
 					index = map[y][x];
-				g.drawImage( image[index], x*imageSize, TOPMARGIN+y*imageSize, imageSize, imageSize, null );
+				g.drawImage( image[index], LEFTMARGIN+x*imageSize, TOPMARGIN+y*imageSize, imageSize, imageSize, null );
 			}
 		}
 	}
